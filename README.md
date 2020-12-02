@@ -1,6 +1,10 @@
 # libmanpy
-Python terminal based Library Management system with MySQL Database
 
+Dependency
+Python : 3.6.0
+Mysql: 5.5
+
+Python terminal based Library Management system with MySQL Database
 
 This program is based on mysql.
 
