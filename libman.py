@@ -16,6 +16,7 @@ import datetime
 import mysql.connector as con
 import creds
 
+# edit creds.py to match your db settings
 db = con.connect(host = creds.host, user = creds.user, password = creds.password, database = creds.database)
 cursor = db.cursor()
 
@@ -87,17 +88,18 @@ while status:
                 rows = cursor.fetchall()
                 for row in rows:
                     for cell in row:
-                        print(cell)
+                        print(cell, end="\t")
+                    print("\n")
                 book = str(input("\nEnter book ID to remove\n"))
                 # check if book in use
                 sql = "select name from members where member_id in (SELECT member_id from booking where book_id = "+ book +")"
                 cursor.execute(sql)
                 member = cursor.fetchall()
                 if cursor.rowcount > 0:
-                    print("Cannot delete book, as it is issued by.")
+                    print("\nCannot delete book, as it is issued by:")
                     for x in member:
                         for y in x:
-                            print(y, sep="\n")
+                            print(y, end="\n")
                 else:
                     sql = "delete from books where book_id = " + book
                     cursor.execute(sql)
@@ -157,7 +159,8 @@ while status:
                 rows = cursor.fetchall()
                 for row in rows:
                     for cell in row:
-                        print(row)
+                        print(cell, end="\t")
+                    print("\n")
                 member = str(input("\nEnter member ID to remove\n"))
                 # check if member issued a book
                 sql = "select name from books where book_id in (SELECT book_id from booking where member_id = "+ member +")"
@@ -167,7 +170,7 @@ while status:
                     print("Cannot delete member record, as they have issued book(s):")
                     for x in book:
                         for y in x:
-                            print(y, sep="\n")
+                            print(y, end="\t")
                 else:
                     sql = "delete from members where member_id = " + member
                     cursor.execute(sql)
@@ -234,7 +237,7 @@ while status:
                 
                 # issue a book
                 sql = "insert into booking values(NULL,%s,%s, curdate(), NULL)"
-                val = (book, member)
+                val = (member, book)
                 cursor.execute(sql, val)
                 if cursor.rowcount == 1:
                     print("New transaction recorded.\n")
