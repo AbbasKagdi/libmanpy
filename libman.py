@@ -14,7 +14,9 @@ print("""
 
 import datetime
 import mysql.connector as con
-db = con.connect(host="localhost", user="root", password="", database="python")
+import creds
+
+db = con.connect(host = creds.host, user = creds.user, password = creds.password, database = creds.database)
 cursor = db.cursor()
 
 #CREATING REQUIRED TABLES
